@@ -350,7 +350,7 @@ function renderFooter() {
 
         for (let j = 0; j < locations.length; j++) {
             hourlyTotal += locations[j].cookiesSoldPerHr[i];
-            grandTotal += hourlyTotal;
+            grandTotal += hourlyTotal[j].cookiesSoldPerHr[j];
         }
         let footerHeader = document.createElement("th");
         footerHeader.textContent = hourlyTotal;
@@ -362,16 +362,109 @@ function renderFooter() {
     table.appendChild(footerRow);
 
 }
-
-
-
-
-
-
-
 Seattle.render();
 Paris.render();
 Dubai.render();
 Lima.render();
 Tokyo.render();
 renderFooter();
+// function getRandomNumberOfCustomersGivenARange(minCustomers, maxCustomers) {
+//     return (Math.floor(Math.random() * (maxCustomers - minCustomers + 1)) + minCustomers); // if we get 0 we start at mincustomers, otherwise we multiply difference between max and min times 0 or 1 adding 1 because zero based
+// }
+
+
+// const biznessHours = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm"];
+
+
+// function CookieStand(locationName, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerSale) {
+//     this.locationName = locationName;
+//     this.minCustomersPerHour = minCustomersPerHour;
+//     this.maxCustomersPerHour = maxCustomersPerHour;
+//     this.avgCookiesPerSale = avgCookiesPerSale;
+//     this.customersEachHour = [];
+//     this.cookiesEachHour = [];
+//     this.totalDailyCookies = 0;
+// }
+
+// CookieStand.prototype.getCookiesSoldPerHour = function () {
+//     for (let i = 0; i < biznessHours.length; i++) {
+//         this.customersEachHour.push(getRandomNumberOfCustomersGivenARange(this.minCustomersPerHour, this.maxCustomersPerHour));
+//     }
+// };
+
+// CookieStand.prototype.calcCookiesEachHour = function () {
+//     this.getCookiesSoldPerHour();
+//     for (let i = 0; i < biznessHours.length; i++) {
+//         const oneHour = Math.ceil(this.customersEachHour[i] * this.avgCookiesPerSale);
+//         console.log(`Adding cookie hr ${oneHour}`);
+//         this.cookiesEachHour.push(oneHour);
+//         this.totalDailyCookies += oneHour;
+//     }
+// };
+
+// CookieStand.prototype.render = function () {
+//     this.calcCookiesEachHour();
+//     const unorderedList = document.getElementById(this.locationName); // find a DIV with the same name as the city
+//     for (let i = 1; i < biznessHours.length; i++) {
+//         const listItem = document.createElement('li');
+//         console.log(`${this.cookiesEachHour.length}`);
+//         for (let index = 0; index < this.cookiesEachHour.length; index++) {
+//             console.log(`${this.cookiesEachHour[index]}`);
+
+//         }
+//         listItem.innerText = biznessHours[i] + ': ' + this.cookiesEachHour[i] + ' cookies';
+//         unorderedList.appendChild(listItem);
+//     }
+//     const listItem = document.createElement('li');
+//     listItem.textContent = 'Total: ' + this.totalDailyCookies + ' cookies';
+//     unorderedList.appendChild(listItem);
+// };
+
+
+// let allCookieStands = [
+//     new CookieStand('seattle', 23, 65, 6.3),
+//     new CookieStand('tokyo', 3, 24, 1.2),
+//     new CookieStand('dubai', 11, 38, 3.7),
+//     new CookieStand('paris', 20, 38, 2.3),
+//     new CookieStand('lima', 2, 16, 4.6),
+// ];
+
+// for (let index = 0; index < allCookieStands.length; index++) {
+//     allCookieStands[index].render();
+
+// }
+
+let myForm = document.getElementById("nameForm")
+// we add an event listener tied to what element we attached to the variable myForm
+myForm.addEventListener('submit', submitLocation);
+// this event listener should react when we press submit
+
+function submitLocation(evt) {
+    evt.preventDefault(); // prevent the default stuff from happening, Kevin example
+    // alert("form submit"); sanity checks
+    let locname = evt.target.locname.value;
+    let locmin = evt.target.locmin.value;
+    let locmax = evt.target.locmax.value;
+    let locavg = evt.target.locavg.value;
+    // do with values (eg. add to array)
+    alert(`Thanks for submitting ${locname} to our data banks !, With ${locmin} minimum customers a day, and ${locmax} maximum customers per day, averaging about ${locavg} customers a day !`);
+     let newLocation = new CookieStand(locname, locmin, locmax, locavg);
+    newLocation.render();
+};
+
+// Let's load up an array with instances of cookie stands
+let allCookieStands = [
+    new CookieStand('seattle', 23, 65, 6.3),
+    new CookieStand('tokyo', 3, 24, 1.2),
+    new CookieStand('dubai', 11, 38, 3.7),
+    new CookieStand('paris', 20, 38, 2.3),
+    new CookieStand('lima', 2, 16, 4.6),
+];
+
+// Iterate through the array of stands and render each one
+for (let index = 0; index < allCookieStands.length; index++) {
+    allCookieStands[index].render();
+
+}
+
+createFooter();
